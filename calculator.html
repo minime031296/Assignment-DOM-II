@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background: black;
+        }
+
+        #container {
+            height: 592px;
+            width: 85%;
+            border: 3px solid red;
+            border-style: dotted;
+            flex-wrap: wrap;
+            margin-left: 80px;
+            margin-right: 70px;
+            justify-items: center;
+            align-items: center;
+            background: white;
+            border: 0;
+        }
+
+        #container .a {
+            height: 100px;
+            width: 29%;
+            border: 3px solid red;
+            border-style: dotted;
+            margin-left: 26rem;
+            margin-top: 30px;
+            color: darkcyan;
+            text-align: center;
+            font-size: 37px;
+            margin-top: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            justify-content: center;
+            align-items: center;
+            border: 0;
+        }
+
+        span {
+            display: inline-block;
+        }
+
+        span::first-letter {
+            font-size: 35px;
+            color: darkcyan;
+            font-weight: bold;
+        }
+
+        #container .b {
+            height: 310px;
+            width: 27%;
+            border: 3px solid red;
+            border-style: dotted;
+            margin-top: 10px;
+            margin-left: 26rem;
+            padding-top: 30px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            border: 0;
+        }
+
+        .b {
+            display: grid;
+            grid-template-columns: repeat(4, 49px);
+            grid-template-rows: repeat(5, 48px);
+            grid-column-gap: 9px;
+            grid-row-gap: 9px;
+            justify-content: center;
+            line-height: 47px;
+            text-align: center;
+        }
+
+        .b > div {
+            border-radius: 0.5em;
+            box-shadow: rgba(138, 138, 161, 0.2) 0px 7px 29px 0px;
+            cursor: pointer;
+        }
+
+        .b > .bk {
+            background-color: black;
+            color: white;
+        }
+
+        .b .rd {
+            background-color: red;
+            color: white;
+        }
+
+        #container .b > .Q {
+            grid-area: 1/1/2/5;
+            box-shadow: rgba(159, 159, 176, 0.2) 0px 7px 29px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="a"><span><b>Masai</span>&emsp13;<span>Calculator</b></span></div>
+        <div class="b">
+            <div class="Q"></div>
+            <div class="Q"></div>
+            <div class="Q"></div>
+            <div class="Q"></div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div class="bk">+</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div class="bk">-</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+            <div class="bk">x</div>
+            <div class="rd">C</div>
+            <div>0</div>
+            <div class="bk">=</div>
+            <div class="bk">/</div>
+        </div>
+    </div>
+
+    <script>
+        let firstNumber = "";
+        let secondNumber = "";
+        let operator = "";
+        let isOperatorSelected = false;
+
+        let head = document.querySelector(".Q");
+        let keypadButtons = document.querySelectorAll(".b > div");
+        let operatorButtons = document.querySelectorAll(".bk, .rd");
+
+        keypadButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                if (isOperatorSelected) {
+                    secondNumber += button.textContent;
+                } else {
+                    firstNumber += button.textContent;
+                }
+                head.textContent = isOperatorSelected ? secondNumber : firstNumber;
+            });
+        });
+
+        operatorButtons.forEach(operatorButton => {
+            operatorButton.addEventListener("click", function() {
+                if (operatorButton.textContent === "C") {
+                    firstNumber = "";
+                    secondNumber = "";
+                    operator = "";
+                    isOperatorSelected = false;
+                } else if (operatorButton.textContent === "=") {
+                    if (firstNumber && secondNumber && operator) {
+                        switch (operator) {
+                            case "+":
+                                head.textContent = parseFloat(firstNumber) + parseFloat(secondNumber);
+                                break;
+                            case "-":
+                                head.textContent = parseFloat(firstNumber) - parseFloat(secondNumber);
+                                break;
+                            case "x":
+                                head.textContent = parseFloat(firstNumber) * parseFloat(secondNumber);
+                                break;
+                            case "/":
+                                head.textContent = parseFloat(firstNumber) / parseFloat(secondNumber);
+                                break;
+                        }
+                        firstNumber = head.textContent;
+                        secondNumber = "";
+                        operator = "";
+                        isOperatorSelected = false;
+                    }
+                } else {
+                    operator = operatorButton.textContent;
+                    isOperatorSelected = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
